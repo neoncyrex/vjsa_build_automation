@@ -1,0 +1,33 @@
+
+OSUSERNAME: admin
+OSPASSWORD: contrail123
+OSAUTHURL: http://10.13.82.57:5000/v2.0/
+OSPROJECTNAME: jedi-space 
+jsa_hostname: vJSA_build
+jsa_hostname_deploy: vJSA_deploy
+image_name: JSA2014.8R1
+flavor_name: vJSA-TMCON
+mgmnt_network: MGT
+left_network: Left
+right_network: Right
+jsa_user: root
+jsa_pass: Juniper123
+mechid: adminjuniper
+mechid_publickey_url: http://10.13.84.75/keys/ansible_id_rsa.pub
+
+# template vars
+globaladdress:
+  - {hostname: "google-dns", ipaddr: "8.8.8.8/32"}
+  - {hostname: "google-dns2", ipaddr: "8.8.4.4/32"}
+addressset:
+  - name: DNS
+    addr:
+      - google-dns
+      - google-dns2
+  
+policies:
+  - name: ALLOW_DNS
+    matchsourceaddress: any
+    matchdestinationaddress: DNS
+    matchapplication: dns
+    action: permit

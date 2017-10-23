@@ -1,39 +1,46 @@
 #!groovy
- 
+def rev 
 node('jenkins') {
-  stage('Checkout Source') {
+  stage('Checkout') {
     checkout scm
+    rev  = "$BUILD_NUMBER"
   }
 
   stage('Syntax') {
-    echo 'Syntax and Lint testing'
-    sh 'ls'
+    echo "${rev}: Syntax and Lint testing"
     sh 'ansible-lint ansible/playbooks/*.yml  ansible/playbooks/*.yaml'
     sh 'ansible-lint ansible/'
+    sh "true"
   }
 
   stage('Build') {
-    echo "Building"
-    sh "true"
+    echo "${rev}: Building vJSA"
+    sh "cd ansible;  ansible-playbook playbooks/build_vjsa.yml -e rev=${rev}"
+    echo "${rev}: Uploading image"
+    sh "sleep 60"
   }
 
   stage('Deploy') {
-    echo  "Deploying"
-    sh "true"
+    echo "${rev}: Deploying vJSA"
+    sh "cd ansible;  ansible-playbook playbooks/deploy_vjsa.yml -e rev=${rev}"
   }
+ 
   stage('Test') {
-    echo  "Testing"
-    sh "true"
-  }
-  stage('Approval') {
-    echo  "Please approve this change"
-    input "Approve?"
+    echo  "${rev}: Testing"
     sh "true"
   }
 
+ stage('Approve') {
+    echo  "${rev}: Waiting for approval for change"
+    input "Do you want to upload the image to pre-prod/prod environment?"
+    sh "true"
+  }
 
   stage('Publish') {
-    echo "publishing"
+    echo "${rev}: Publishing image for community usage"
+    sh "cd ansible;  ansible-playbook playbooks/publish_vjsa.yml -e rev=${rev}"
+    echo "${rev}: Downloading image"
+    sh "sleep 60"
     sh "true"
   }
 }
