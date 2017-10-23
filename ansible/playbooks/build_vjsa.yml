@@ -3,9 +3,7 @@
    hosts: localhost
    connection: local
    gather_facts: no
-#   tasks:
-#   - name: create vsrx config
-#     template: src=../templates/config.j2 dest=../templates/base_config.j2
+   tasks:
 
    - name: deploy vjsa instance
      os_server:
