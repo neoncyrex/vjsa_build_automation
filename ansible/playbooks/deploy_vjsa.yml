@@ -14,8 +14,9 @@
        flavor: "{{ flavor_name }}"
        security_groups: default
        nics:
-         - net-name: "{{left_network}}"
-         - net-name: "{{right_network}}"
+#         - net-name: "{{left_network}}"
+#         - net-name: "{{right_network}}"
+         - net-name: "{{mgmnt_network}}"
      environment:
         OS_USERNAME: "{{OSUSERNAME}}"
         OS_PASSWORD: "{{OSPASSWORD}}"
