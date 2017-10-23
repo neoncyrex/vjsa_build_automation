@@ -3,64 +3,64 @@
      hosts: localhost
      connection: local
      gather_facts: no
+     tasks:
 
-   - name: deploy vjsa instance
-     os_server:
-       state: present
-       name: "{{ jsa_hostname }}{{rev}}"
-       wait: yes
-       availability_zone: nova
-       image: "{{ image_name }}"
-       flavor: "{{ flavor_name }}"
-       security_groups: default
-       nics:
-         - net-name: "{{left_network}}"
-         - net-name: "{{right_network}}"
-     environment:
-        OS_USERNAME: "{{OSUSERNAME}}"
-        OS_PASSWORD: "{{OSPASSWORD}}"
-        OS_AUTH_URL: "{{OSAUTHURL}}"
-        OS_PROJECT_NAME: "{{OSPROJECTNAME}}"
-#     register: vm
+     - name: deploy vjsa instance
+       os_server:
+         state: present
+         name: "{{ jsa_hostname }}{{rev}}"
+         wait: yes
+         availability_zone: nova
+         image: "{{ image_name }}"
+         flavor: "{{ flavor_name }}"
+         security_groups: default
+         nics:
+           - net-name: "{{left_network}}"
+           - net-name: "{{right_network}}"
+       environment:
+          OS_USERNAME: "{{OSUSERNAME}}"
+          OS_PASSWORD: "{{OSPASSWORD}}"
+          OS_AUTH_URL: "{{OSAUTHURL}}"
+          OS_PROJECT_NAME: "{{OSPROJECTNAME}}"
 
-   - name: get info about the networks
-     os_networks_facts:
-       filters:
-         name: "{{mgmnt_network}}"
-     environment:
-        OS_USERNAME: "{{OSUSERNAME}}"
-        OS_PASSWORD: "{{OSPASSWORD}}"
-        OS_AUTH_URL: "{{OSAUTHURL}}"
-        OS_PROJECT_NAME: "{{OSPROJECTNAME}}"
+     - name: get info about the networks
+       os_networks_facts:
+         filters:
+           name: "{{mgmnt_network}}"
+       environment:
+          OS_USERNAME: "{{OSUSERNAME}}"
+          OS_PASSWORD: "{{OSPASSWORD}}"
+          OS_AUTH_URL: "{{OSAUTHURL}}"
+          OS_PROJECT_NAME: "{{OSPROJECTNAME}}"
 
-   - name: get port facts
-     os_port_facts:
-       filters:
-         device_id: "{{vm.openstack.id}}"
-         network_id: "{{openstack_networks[0].id}}"
-     environment:
-        OS_USERNAME: "{{OSUSERNAME}}"
-        OS_PASSWORD: "{{OSPASSWORD}}"
-        OS_AUTH_URL: "{{OSAUTHURL}}"
-        OS_PROJECT_NAME: "{{OSPROJECTNAME}}"
+     - name: get port facts
+       os_port_facts:
+         filters:
+           device_id: "{{vm.openstack.id}}"
+           network_id: "{{openstack_networks[0].id}}"
+       environment:
+          OS_USERNAME: "{{OSUSERNAME}}"
+          OS_PASSWORD: "{{OSPASSWORD}}"
+          OS_AUTH_URL: "{{OSAUTHURL}}"
+          OS_PROJECT_NAME: "{{OSPROJECTNAME}}"
 
-   - name: download MechID SSH public key
-     get_url: dest=~/tmp/id_rsa.pub.{{rev}} url={{mechid_publickey_url}}
+     - name: download MechID SSH public key
+       get_url: dest=~/tmp/id_rsa.pub.{{rev}} url={{mechid_publickey_url}}
 
-   - name: add ip to inventory
-     add_host:
-       name: "{{openstack_ports[0].fixed_ips[0].ip_address}}"
-       groups: jsa_vm
+     - name: add ip to inventory
+       add_host:
+         name: "{{openstack_ports[0].fixed_ips[0].ip_address}}"
+         groups: jsa_vm
 
-   - name: display groups
-     debug: var=groups
+     - name: display groups
+       debug: var=groups
 
-   - name: wait unstill jsa boots
-     wait_for:
-       port: 22
-       host: "{{openstack_ports[0].fixed_ips[0].ip_address}}"
-       delay: 60
-       timeout: 480
+     - name: wait unstill jsa boots
+       wait_for:
+         port: 22
+         host: "{{openstack_ports[0].fixed_ips[0].ip_address}}"
+         delay: 60
+         timeout: 480
 
 
 # - name: create user and ssh key for jsa access
@@ -81,48 +81,48 @@
      connection: local
      gather_facts: no
      tasks:
-   - name: set fact
-     set_fact: mykey={{ lookup('file', '~/tmp/id_rsa.pub.' + rev) }}
+     - name: set fact
+       set_fact: mykey={{ lookup('file', '~/tmp/id_rsa.pub.' + rev) }}
 
-   - name: display key
-     debug: var=mykey
+     - name: display key
+       debug: var=mykey
 
-   - name: create admin user with ssh key
-     junos_user:
-       name: "{{mechid}}"
-       full_name: "Ansible and Automation MechID"
-       role: super-user
-       sshkey: "{{ lookup('file', '~/tmp/id_rsa.pub.' + rev) }}"
-       state: present
-       provider:
-         host: "{{ groups['srx_vm'] |to_json | regex_search ('\\d[0-9]*.\\d[0-9]*.\\d[0-9]*.\\d[0-9]*')}}"
-         username: "{{jsa_user}}"
-         password: "{{jsa_pass}}"
+     - name: create admin user with ssh key
+       junos_user:
+         name: "{{mechid}}"
+         full_name: "Ansible and Automation MechID"
+         role: super-user
+         sshkey: "{{ lookup('file', '~/tmp/id_rsa.pub.' + rev) }}"
+         state: present
+         provider:
+           host: "{{ groups['srx_vm'] |to_json | regex_search ('\\d[0-9]*.\\d[0-9]*.\\d[0-9]*.\\d[0-9]*')}}"
+           username: "{{jsa_user}}"
+           password: "{{jsa_pass}}"
 
    - name: stop vJSA compute instance
      hosts: localhost
      connection: local
      gather_facts: no
      tasks:
-   - name: Stop vJSA instance
-     os_server_actions:
-       action: stop
-       server: "{{jsa_hostname}}{{rev}}"
-     environment:
-        OS_USERNAME: "{{OSUSERNAME}}"
-        OS_PASSWORD: "{{OSPASSWORD}}"
-        OS_AUTH_URL: "{{OSAUTHURL}}"
-        OS_PROJECT_NAME: "{{OSPROJECTNAME}}"
+     - name: Stop vJSA instance
+       os_server_actions:
+         action: stop
+         server: "{{jsa_hostname}}{{rev}}"
+       environment:
+          OS_USERNAME: "{{OSUSERNAME}}"
+          OS_PASSWORD: "{{OSPASSWORD}}"
+          OS_AUTH_URL: "{{OSAUTHURL}}"
+          OS_PROJECT_NAME: "{{OSPROJECTNAME}}"
 
-   - name: create snapshot
-     command: openstack server image create --name "{{jsa_hostname}}{{rev}}-image" "{{jsa_hostname}}{{rev}}"
-     environment:
-        OS_USERNAME: "{{OSUSERNAME}}"
-        OS_PASSWORD: "{{OSPASSWORD}}"
-        OS_AUTH_URL: "{{OSAUTHURL}}"
-        OS_PROJECT_NAME: "{{OSPROJECTNAME}}"
-     tags:
-     - skip_ansible_lint
+     - name: create snapshot
+       command: openstack server image create --name "{{jsa_hostname}}{{rev}}-image" "{{jsa_hostname}}{{rev}}"
+       environment:
+          OS_USERNAME: "{{OSUSERNAME}}"
+          OS_PASSWORD: "{{OSPASSWORD}}"
+          OS_AUTH_URL: "{{OSAUTHURL}}"
+          OS_PROJECT_NAME: "{{OSPROJECTNAME}}"
+       tags:
+       - skip_ansible_lint
 
 #   - name: delete vJSA instance
 #     os_server:
