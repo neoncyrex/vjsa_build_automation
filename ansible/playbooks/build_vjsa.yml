@@ -61,7 +61,7 @@
          port: 22
          host: "{{openstack_ports[0].fixed_ips[0].ip_address}}"
          delay: 60
-         timeout: 480
+         timeout: 960
 
 
 # - name: create user and ssh key for jsa access
