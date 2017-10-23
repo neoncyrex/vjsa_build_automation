@@ -1,23 +1,21 @@
 ---
- - name: deploy openstack vsrx
+ - name: deploy openstack vjsa
    hosts: localhost
    connection: local
    gather_facts: no
    tasks:
-   - name: deploy vsrx instance
+   - name: deploy vjsa instance
      os_server:
        state: present
-       name: "{{ srx_hostname_deploy }}{{rev}}"
+       name: "{{ jsa_hostname_deploy }}{{rev}}"
        wait: yes
        availability_zone: nova
-       image: "{{srx_hostname}}{{rev}}-image"
+       image: "{{jsa_hostname}}{{rev}}-image"
        flavor: "{{ flavor_name }}"
        security_groups: default
        nics:
-         - net-name: "{{mgmnt_network}}"
          - net-name: "{{left_network}}"
          - net-name: "{{right_network}}"
-#       userdata: "{{lookup('file','../templates/base_config.j2')| string}}"
      environment:
         OS_USERNAME: "{{OSUSERNAME}}"
         OS_PASSWORD: "{{OSPASSWORD}}"
@@ -46,7 +44,7 @@
         OS_AUTH_URL: "{{OSAUTHURL}}"
         OS_PROJECT_NAME: "{{OSPROJECTNAME}}"
 
-   - name: wait until srx boots
+   - name: wait until jsa boots
      wait_for:
        port: 22
        host: "{{openstack_ports[0].fixed_ips[0].ip_address}}"

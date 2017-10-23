@@ -1,9 +1,8 @@
 ---
- - name: deploy openstack vjsa
-   hosts: localhost
-   connection: local
-   gather_facts: no
-   tasks:
+   - name: deploy openstack vjsa
+     hosts: localhost
+     connection: local
+     gather_facts: no
 
    - name: deploy vjsa instance
      os_server:
@@ -15,7 +14,6 @@
        flavor: "{{ flavor_name }}"
        security_groups: default
        nics:
-         - net-name: "{{mgmnt_network}}"
          - net-name: "{{left_network}}"
          - net-name: "{{right_network}}"
      environment:
@@ -78,11 +76,11 @@
 #       ssh_key_file: .ssh/id_rsa
 
 
- - name: configuration of new user admin on the jsa
-   hosts: jsa_vm
-   connection: local
-   gather_facts: no
-   tasks:
+   - name: configuration of new user admin on the jsa
+     hosts: jsa_vm
+     connection: local
+     gather_facts: no
+     tasks:
    - name: set fact
      set_fact: mykey={{ lookup('file', '~/tmp/id_rsa.pub.' + rev) }}
 
@@ -101,11 +99,11 @@
          username: "{{jsa_user}}"
          password: "{{jsa_pass}}"
 
- - name: stop vJSA compute instance
-   hosts: localhost
-   connection: local
-   gather_facts: no
-   tasks:
+   - name: stop vJSA compute instance
+     hosts: localhost
+     connection: local
+     gather_facts: no
+     tasks:
    - name: Stop vJSA instance
      os_server_actions:
        action: stop
