@@ -21,7 +21,7 @@
         OS_PASSWORD: "{{OSPASSWORD}}"
         OS_AUTH_URL: "{{OSAUTHURL}}"
         OS_PROJECT_NAME: "{{OSPROJECTNAME}}"
-     register: vm
+#     register: vm
 
    - name: get info about the networks
      os_networks_facts:
