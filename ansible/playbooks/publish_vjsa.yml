@@ -1,11 +1,11 @@
 
- - name: Download OpenStack vSRX image to httpd repository
+ - name: Download OpenStack vJSA image to httpd repository
    hosts: localhost
    connection: local
    gather_facts: no
    tasks:
-   - name: Download vSRX image
-     command:  openstack image save --file /data/{{srx_hostname}}{{rev}}-image.qcow2 {{srx_hostname}}{{rev}}-image
+   - name: Download vJSA image
+     command:  openstack image save --file /data/{{jsa_hostname}}{{rev}}-image.qcow2 {{jsa_hostname}}{{rev}}-image
      environment:
         OS_USERNAME: "{{OSUSERNAME}}"
         OS_PASSWORD: "{{OSPASSWORD}}"

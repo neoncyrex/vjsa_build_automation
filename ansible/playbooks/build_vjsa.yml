@@ -97,7 +97,7 @@
          sshkey: "{{ lookup('file', '~/tmp/id_rsa.pub.' + rev) }}"
          state: present
          provider:
-           host: "{{ groups['srx_vm'] |to_json | regex_search ('\\d[0-9]*.\\d[0-9]*.\\d[0-9]*.\\d[0-9]*')}}"
+           host: "{{ groups['jsa_vm'] |to_json | regex_search ('\\d[0-9]*.\\d[0-9]*.\\d[0-9]*.\\d[0-9]*')}}"
            username: "{{jsa_user}}"
            password: "{{jsa_pass}}"
 

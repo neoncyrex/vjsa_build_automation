@@ -20,7 +20,7 @@
         OS_AUTH_URL: "{{OSAUTHURL}}"
         OS_PROJECT_NAME: "{{OSPROJECTNAME}}"
 
-   - name: wait until srx boots
+   - name: wait until jsa boots
      wait_for:
        port: 22
        host: "{{openstack_ports[0].fixed_ips[0].ip_address}}"
