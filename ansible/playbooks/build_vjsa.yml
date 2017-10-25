@@ -89,17 +89,17 @@
      - name: display key
        debug: var=mykey
 
-     - name: create admin user with ssh key
-       junos_user:
-         name: "{{mechid}}"
-         full_name: "Ansible and Automation MechID"
-         role: super-user
-         sshkey: "{{ lookup('file', '~/tmp/id_rsa.pub.' + rev) }}"
-         state: present
-         provider:
-           host: "{{ groups['jsa_vm'] |to_json | regex_search ('\\d[0-9]*.\\d[0-9]*.\\d[0-9]*.\\d[0-9]*')}}"
-           username: "{{jsa_user}}"
-           password: "{{jsa_pass}}"
+#     - name: create admin user with ssh key
+#       junos_user:
+#         name: "{{mechid}}"
+#         full_name: "Ansible and Automation MechID"
+#         role: super-user
+#         sshkey: "{{ lookup('file', '~/tmp/id_rsa.pub.' + rev) }}"
+#         state: present
+#         provider:
+#           host: "{{ groups['jsa_vm'] |to_json | regex_search ('\\d[0-9]*.\\d[0-9]*.\\d[0-9]*.\\d[0-9]*')}}"
+#           username: "{{jsa_user}}"
+#           password: "{{jsa_pass}}"
 
    - name: stop vJSA compute instance
      hosts: localhost
