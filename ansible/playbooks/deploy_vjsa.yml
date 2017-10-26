@@ -1,6 +1,6 @@
 ---
- - name: waiting until image upload
-   delay: 2400
+ - pause:
+     minutes: 40
 
  - name: deploy openstack vjsa
    hosts: localhost
