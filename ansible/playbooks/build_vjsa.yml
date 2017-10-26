@@ -57,13 +57,16 @@
      - name: display groups
        debug: var=groups
 
-     - name: wait unstill jsa boots
+     - name: wait until jsa boots
        wait_for:
          port: 22
          host: "{{openstack_ports[0].fixed_ips[0].ip_address}}"
          delay: 60
          timeout: 1200
 
+     - name: wait a bit more until JSA completely boots
+       wait_for:
+         timeout: 120
 
 # - name: create user and ssh key for jsa access
 #   hosts: jenkins
@@ -88,8 +91,6 @@
 
      - name: display key
        debug: var=mykey
-       wait_for:
-         timeout: 120
 
      - name: create admin user with ssh key
        user:
