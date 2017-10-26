@@ -64,21 +64,17 @@
          delay: 60
          timeout: 1200
 
-#     - name: wait a bit more until JSA completely boots
-#       wait_for:
-#         timeout: 300
-
-# - name: create user and ssh key for jsa access
-#   hosts: jenkins
-#   gather_facts: no
-#   tasks:
-#   - name: create vjsa user and ssh key
-#     user:
-#       name: "{{mechid}}"
-#       state: present
-#       generate_ssh_key: yes
-#       ssh_key_bits: 2048
-#       ssh_key_file: .ssh/id_rsa
+   - name: create user and ssh key for jsa access
+     hosts: jenkins
+     gather_facts: no
+     tasks:
+     - name: create vjsa user and ssh key
+       user:
+         name: "{{mechid}}"
+         state: present
+         generate_ssh_key: yes
+         ssh_key_bits: 2048
+         ssh_key_file: .ssh/id_rsa
 
 
    - name: configuration of new user admin on the jsa
@@ -92,35 +88,16 @@
      - name: display key
        debug: var=mykey
 
-     - name: wait for passwd file to be released
-       wait_for:
-         path: /etc/passwd.lock
-         state: absent
-         delay: 60
-         timeout: 300
-
      - name: create admin user
        user:
          name: "{{mechid}}"
          state: present
 
-     - name: set authorized key took from web
+     - name: set authorized key took a box
        authorized_key:
          user: "{{mechid}}"
          state: present
          key: "{{ lookup('file', '~/tmp/id_rsa.pub.' + rev) }}"
-
-#     - name: create admin user with ssh key
-#       junos_user:
-#         name: "{{mechid}}"
-#         full_name: "Ansible and Automation MechID"
-#         role: super-user
-#         sshkey: "{{ lookup('file', '~/tmp/id_rsa.pub.' + rev) }}"
-#         state: present
-#         provider:
-#           host: "{{ groups['jsa_vm'] |to_json | regex_search ('\\d[0-9]*.\\d[0-9]*.\\d[0-9]*.\\d[0-9]*')}}"
-#           username: "{{jsa_user}}"
-#           password: "{{jsa_pass}}"
 
    - name: stop vJSA compute instance
      hosts: localhost
