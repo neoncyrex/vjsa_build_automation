@@ -90,6 +90,7 @@
        debug: var=mykey
 
      - name: create admin user with ssh key
+       become: true
        user:
          name: "{{ mechid }}"
          state: present
