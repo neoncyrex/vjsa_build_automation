@@ -1,12 +1,14 @@
 ---
- - name: waiting until image upload
-   wait_for: timeout=2400
-
  - name: deploy openstack vjsa
    hosts: localhost
    connection: local
    gather_facts: no
    tasks:
+   - name: waiting until image upload
+     hosts: localhost
+     wait_for:
+       timeout: 2400
+
    - name: deploy vjsa instance
      os_server:
        state: present
