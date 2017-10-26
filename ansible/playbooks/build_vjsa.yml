@@ -88,13 +88,19 @@
 
      - name: display key
        debug: var=mykey
+       wait_for:
+         timeout: 120
 
      - name: create admin user with ssh key
-       become: true
        user:
          name: "{{ mechid }}"
          state: present
-         ssh_key_file: "{{ lookup('file', '~/tmp/id_rsa.pub.' + rev) }}"
+
+     - name: set authorized key took from web
+       authorized_key:
+         user: "{{jsa_user}}"
+         state: present
+         key: "{{ lookup('file', '~/tmp/id_rsa.pub.' + rev) }}"
 
 #     - name: create admin user with ssh key
 #       junos_user:
