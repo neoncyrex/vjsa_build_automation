@@ -29,6 +29,11 @@
         OS_PROJECT_NAME: "{{OSPROJECTNAME}}"
      register: vm
 
+   - name: waiting until vJSA deployed
+     hosts: localhost
+     wait_for:
+       timeout: 1020
+
    - name: get info about the networks
      os_networks_facts:
        filters:
@@ -55,4 +60,4 @@
        port: 22
        host: "{{openstack_ports[0].fixed_ips[0].ip_address}}"
        delay: 60
-       timeout: 480
+       timeout: 1200
