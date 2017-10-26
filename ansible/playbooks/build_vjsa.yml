@@ -64,9 +64,9 @@
          delay: 60
          timeout: 1200
 
-     - name: wait a bit more until JSA completely boots
-       wait_for:
-         timeout: 300
+#     - name: wait a bit more until JSA completely boots
+#       wait_for:
+#         timeout: 300
 
 # - name: create user and ssh key for jsa access
 #   hosts: jenkins
@@ -92,14 +92,21 @@
      - name: display key
        debug: var=mykey
 
-     - name: create admin user with ssh key
+     - name: wait for passwd file to be released
+       wait_for:
+         path: /etc/passwd.lock
+         state: absent
+         delay: 60
+         timeout: 300
+
+     - name: create admin user
        user:
-         name: "{{ mechid }}"
+         name: "{{mechid}}"
          state: present
 
      - name: set authorized key took from web
        authorized_key:
-         user: "{{jsa_user}}"
+         user: "{{mechid}}"
          state: present
          key: "{{ lookup('file', '~/tmp/id_rsa.pub.' + rev) }}"
 
