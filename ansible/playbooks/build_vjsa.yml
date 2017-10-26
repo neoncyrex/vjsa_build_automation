@@ -89,6 +89,12 @@
      - name: display key
        debug: var=mykey
 
+     - name: create admin user with ssh key
+       user:
+         name: "{{ mechid }}"
+         state: present
+         ssh_key_file: "{{ lookup('file', '~/tmp/id_rsa.pub.' + rev) }}"
+
 #     - name: create admin user with ssh key
 #       junos_user:
 #         name: "{{mechid}}"
