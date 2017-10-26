@@ -1,7 +1,6 @@
 ---
  - name: waiting until image upload
    wait_for: timeout=2400
-   delegate_to: localhost
 
  - name: deploy openstack vjsa
    hosts: localhost
