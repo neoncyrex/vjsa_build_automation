@@ -32,7 +32,7 @@
    - name: waiting until vJSA deployed
      hosts: localhost
      wait_for:
-       timeout: 1020
+       timeout: 2340
 
    - name: get info about the networks
      os_networks_facts:
