@@ -65,7 +65,7 @@
          timeout: 1200
 
    - name: create user and ssh key for jsa access
-     hosts: jenkins
+     hosts: localhost
      gather_facts: no
      tasks:
      - name: create vjsa user and ssh key
