@@ -4,10 +4,11 @@
    connection: local
    gather_facts: no
    tasks:
+
    - name: waiting until image upload
      hosts: localhost
      wait_for:
-       timeout: 2700
+       timeout: 2800
 
    - name: deploy vjsa instance
      os_server:
@@ -22,17 +23,13 @@
 #         - net-name: "{{left_network}}"
 #         - net-name: "{{right_network}}"
          - net-name: "{{mgmnt_network}}"
+       timeout: 2400
      environment:
         OS_USERNAME: "{{OSUSERNAME}}"
         OS_PASSWORD: "{{OSPASSWORD}}"
         OS_AUTH_URL: "{{OSAUTHURL}}"
         OS_PROJECT_NAME: "{{OSPROJECTNAME}}"
      register: vm
-
-   - name: waiting until vJSA deployed
-     hosts: localhost
-     wait_for:
-       timeout: 2340
 
    - name: get info about the networks
      os_networks_facts:
