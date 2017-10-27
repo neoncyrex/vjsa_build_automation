@@ -74,7 +74,7 @@
        debug: var=mykey
 
      - name: create admin user
-       command: sshpass -p {{jsa_pass}} ssh root@{{jsa_vm}} /usr/sbin/useradd {{mechid}} creates=/home/{{mechid}}
+       command: sshpass -p {{jsa_pass}} ssh root@"{{ groups['vsa_vm'] |to_json | regex_search ('\\d[0-9]*.\\d[0-9]*.\\d[0-9]*.\\d[0-9]*')}}" /usr/sbin/useradd {{mechid}} creates=/home/{{mechid}}
        delegate_to: localhost
 
      - name: set authorized key for {{mechid}}
