@@ -15,8 +15,6 @@
          flavor: "{{ flavor_name }}"
          security_groups: default
          nics:
-#           - net-name: "{{left_network}}"
-#           - net-name: "{{right_network}}"
            - net-name: "{{mgmnt_network}}"
        environment:
           OS_USERNAME: "{{OSUSERNAME}}"
@@ -75,7 +73,7 @@
      - name: display key
        debug: var=mykey
 
-     - name: create "{{mechid}}" user
+     - name: create admin user
        user:
          name: "{{mechid}}"
          state: present
@@ -111,13 +109,13 @@
        tags:
        - skip_ansible_lint
 
-#   - name: delete vJSA instance
-#     os_server:
-#       state: absent
-#       name: "{{ jsa_hostname }}{{rev}}"
-#       wait: yes
-#     environment:
-#        OS_USERNAME: "{{OSUSERNAME}}"
-#        OS_PASSWORD: "{{OSPASSWORD}}"
-#        OS_AUTH_URL: "{{OSAUTHURL}}"
-#        OS_PROJECT_NAME: "{{OSPROJECTNAME}}"
+   - name: delete vJSA instance
+     os_server:
+       state: absent
+       name: "{{ jsa_hostname }}{{rev}}"
+       wait: yes
+     environment:
+        OS_USERNAME: "{{OSUSERNAME}}"
+        OS_PASSWORD: "{{OSPASSWORD}}"
+        OS_AUTH_URL: "{{OSAUTHURL}}"
+        OS_PROJECT_NAME: "{{OSPROJECTNAME}}"
