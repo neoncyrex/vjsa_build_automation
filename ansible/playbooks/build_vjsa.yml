@@ -86,12 +86,6 @@
      - name: display key
        debug: var=mykey
 
-     - name: set authorized key for {{mechid}}
-       authorized_key:
-         user: "{{mechid}}"
-         state: present
-         key: "{{ lookup('file', '~/tmp/id_rsa.pub.' + rev) }}"
-
    - name: stop vJSA compute instance
      hosts: localhost
      connection: local
