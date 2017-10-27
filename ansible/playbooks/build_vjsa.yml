@@ -78,7 +78,7 @@
        delegate_to: localhost
 
      - name: gathering vJSA IP
-       shell: cat ~/ansible/inventory/hosts | tail -n 1 creates=/home/file
+       shell: cat ~/workspace/vjsa_build/ansible/hosts | tail -n 1 creates=/home/file
        register: myoutput
        delegate_to: localhost
 
