@@ -51,6 +51,7 @@
        add_host:
          name: "{{openstack_ports[0].fixed_ips[0].ip_address}}"
          groups: jsa_vm
+       register: myoutput
 
      - name: display groups
        debug: var=groups
@@ -72,15 +73,6 @@
 
      - name: display key
        debug: var=mykey
-
-     - name: debug message
-       shell: pwd; ls creates=/home/file
-       delegate_to: localhost
-
-     - name: gathering vJSA IP
-       shell: cat ~/workspace/vjsa_build/ansible/inventory/hosts | tail -n 1 creates=/home/file
-       register: myoutput
-       delegate_to: localhost
 
      - name: create admin user
        command: sshpass -p {{jsa_pass}} ssh root@{{myoutput}} /usr/sbin/useradd {{mechid}} creates=/home/{{mechid}}
