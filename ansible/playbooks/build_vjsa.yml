@@ -63,7 +63,7 @@
          timeout: 1200
 
      - name: create admin user
-       command: sshpass -p {{jsa_pass}} ssh root@"{{openstack_ports[0].fixed_ips[0].ip_address}}" /usr/sbin/useradd {{mechid}} creates=/home/{{mechid}}
+       command: sshpass -o 'StrictHostKeyChecking no' -p {{jsa_pass}} ssh root@"{{openstack_ports[0].fixed_ips[0].ip_address}}" /usr/sbin/useradd {{mechid}} creates=/home/{{mechid}}
        delegate_to: localhost
 
    - name: configuration of new user admin on the jsa
