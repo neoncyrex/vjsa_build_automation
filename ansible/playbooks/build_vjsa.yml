@@ -73,13 +73,9 @@
      - name: display key
        debug: var=mykey
 
-     - name: configuration of new user admin on the jsa
-       connection: local
-       gather_facts: no
-       tasks:
-       - name: create admin user
-         command: sshpass -p {{jsa_pass}} ssh root@{{jsa_vm}} /usr/sbin/useradd {{mechid}}
-         delegate_to: localhost
+     - name: create admin user
+       command: sshpass -p {{jsa_pass}} ssh root@{{jsa_vm}} /usr/sbin/useradd {{mechid}} creates=/home/{{mechid}}
+       delegate_to: localhost
 
      - name: set authorized key for {{mechid}}
        authorized_key:
