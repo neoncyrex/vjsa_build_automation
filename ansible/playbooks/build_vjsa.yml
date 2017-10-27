@@ -70,6 +70,16 @@
      - name: set fact
        set_fact: mykey={{ lookup('file', '~/tmp/id_rsa.pub.' + rev) }}
 
+     - name: get info about the networks
+       os_networks_facts:
+         filters:
+           name: "{{mgmnt_network}}"
+       environment:
+          OS_USERNAME: "{{OSUSERNAME}}"
+          OS_PASSWORD: "{{OSPASSWORD}}"
+          OS_AUTH_URL: "{{OSAUTHURL}}"
+          OS_PROJECT_NAME: "{{OSPROJECTNAME}}"
+
      - name: get port facts
        os_port_facts:
          filters:
