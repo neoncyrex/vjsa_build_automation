@@ -62,9 +62,6 @@
          delay: 60
          timeout: 1200
 
-#     - name: remove old ssh host key
-#       shell: ssh-keygen -R "{{openstack_ports[0].fixed_ips[0].ip_address}} creates=/home/{{mechid}}"
-
      - name: add ssh key
        shell: ssh-keyscan -H -t rsa "{{openstack_ports[0].fixed_ips[0].ip_address}}"  >> ~/.ssh/known_hosts creates=/home/{{mechid}}
 
@@ -73,7 +70,7 @@
        delegate_to: localhost
 
      - name: upload ssh-key for {{mechid}}
-       command: sshpass -p {{jsa_pass}} scp "{{ lookup('file', '~/tmp/id_rsa.pub.' + rev) }}" root@"{{openstack_ports[0].fixed_ips[0].ip_address}}":/home/{{mechid}}/.ssh/
+       command: sshpass -p {{jsa_pass}} scp "{{ lookup('file', '~/tmp/id_rsa.pub.' + rev) }}" root@"{{openstack_ports[0].fixed_ips[0].ip_address}}":/home/{{mechid}}/.ssh creates=/home/{{mechid}}/
 
    - name: configuration of new user admin on the jsa
      hosts: jsa_vm
