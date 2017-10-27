@@ -8,7 +8,7 @@
    - name: waiting until image upload
      hosts: localhost
      wait_for:
-       timeout: 2800
+       timeout: 3000
 
    - name: deploy vjsa instance
      os_server:
