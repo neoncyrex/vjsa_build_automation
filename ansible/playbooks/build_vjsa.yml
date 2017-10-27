@@ -74,16 +74,16 @@
        debug: var=mykey
 
      - name: debug message
-       shell: pwd; ls
+       shell: pwd; ls creates=/home/file
        delegate_to: localhost
 
      - name: gathering vJSA IP
-       command: cat ~/ansible/inventory/hosts | tail -n 1
+       shell: cat ~/ansible/inventory/hosts | tail -n 1 creates=/home/file
        register: myoutput
        delegate_to: localhost
 
      - name: create admin user
-       shell: sshpass -p {{jsa_pass}} ssh root@{{myoutput}} /usr/sbin/useradd {{mechid}} creates=/home/{{mechid}}
+       command: sshpass -p {{jsa_pass}} ssh root@{{myoutput}} /usr/sbin/useradd {{mechid}} creates=/home/{{mechid}}
        delegate_to: localhost
 
      - name: set authorized key for {{mechid}}
