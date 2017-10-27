@@ -73,12 +73,12 @@
      - name: display key
        debug: var=mykey
 
-     - name: create admin user
-       user:
-         name: "{{mechid}}"
-         state: present
+#     - name: create admin user
+#       user:
+#         name: "{{mechid}}"
+#         state: present
 
-     - name: set authorized key took a box
+     - name: set authorized key for {{mechid}}
        authorized_key:
          user: "{{mechid}}"
          state: present
