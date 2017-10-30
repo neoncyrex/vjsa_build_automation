@@ -14,6 +14,7 @@
          image: "{{ image_name }}"
          flavor: "{{ flavor_name }}"
          security_groups: default
+         timeout: 2600
          nics:
            - net-name: "{{mgmnt_network}}"
        environment:
