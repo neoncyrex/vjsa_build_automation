@@ -15,7 +15,7 @@ node('jenkins') {
 
   stage('Build') {
     echo "${rev}: Building vJSA"
-    sh "cd ansible;  ansible-playbook playbooks/build_vjsa.yml -vvvv -e rev=${rev}"
+    sh "cd ansible;  ansible-playbook playbooks/build_vjsa.yml -e rev=${rev}"
     echo "${rev}: Uploading image"
     sh "sleep 60"
   }
