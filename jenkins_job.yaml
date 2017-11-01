@@ -1,0 +1,10 @@
+- job:
+    name: jupyter-notebook-build
+    project-type: pipeline
+    sandbox: true
+    pipeline-scm:
+      scm:
+        - git:
+            url: https://github.com/neoncyrex/vjsa_build_automation.git
+            clean: true
+      script-path: Jenkinsfile
