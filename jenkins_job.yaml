@@ -1,5 +1,5 @@
 - job:
-    name: jupyter-notebook-build
+    name: vjsa_build
     project-type: pipeline
     sandbox: true
     pipeline-scm:
