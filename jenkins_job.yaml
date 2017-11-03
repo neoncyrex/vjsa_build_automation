@@ -1,10 +1,11 @@
 - job:
-    name: vjsa_build
+    name: vjsa_build-new
     project-type: pipeline
-    sandbox: true
     pipeline-scm:
       scm:
         - git:
+            branches:
+              - '*/master'
             url: https://github.com/neoncyrex/vjsa_build_automation.git
-            clean: true
+            clean: false
       script-path: Jenkinsfile
