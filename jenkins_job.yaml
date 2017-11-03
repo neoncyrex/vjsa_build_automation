@@ -1,5 +1,5 @@
 - job:
-    name: vjsa_build-new
+    name: vjsa_build
     project-type: pipeline
     pipeline-scm:
       scm:
